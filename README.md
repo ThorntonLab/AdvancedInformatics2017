@@ -1,4 +1,4 @@
-# Course materials for EE281, Winter 2017
+# Course materials for EE283, Winter 2017
 
 ## (Tentative) overview for first 5 weeks
 

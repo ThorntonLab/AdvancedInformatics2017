@@ -1,4 +1,4 @@
-# Course website for EE281
+# Course website for EE283
 
 ## The README/syllabus
 
