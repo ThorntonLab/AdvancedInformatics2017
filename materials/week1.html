@@ -60,7 +60,11 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><p>His notes violate a fundamental tenet of programming, which is “know your standard library.” (The “standard library” is the set of types, functions, etc., that come with the language by default, meaning they are available without need for any third-party add-ons.) For example, his discussion of counting (section 4.9 of his notes) is “non-Pythonic”, meaning he is hand-rolling a solution when a better, safer, and more idiomatic method is available in the langauge’s standard library. To be fair, he is doing this for pedagogical reasons, but reinventing the wheel is a bad habit that a few seconds with Google can usually help you avoid.</p></li>
 <li><p>They are Python2-centric. The current language standard is Python3. See <a href="http://python3porting.com/differences.html">here</a> for Py2/Py3 differences. Many of these differences will lead to failure under Py3. The big one is “printing”, which is now a function in Py3. To save your sanity, get used to saying this in your PyX scripts:</p></li>
 </ul>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> __future__ <span class="ch">import</span> print_function
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co">#importing from __future__ </span>
+<span class="co">#must be at the VERY top</span>
+<span class="co">#of yours scripts, meaning</span>
+<span class="co">#BEFORE any other imports</span>
+<span class="ch">from</span> __future__ <span class="ch">import</span> print_function
 
 <span class="co">#In Py2, you&#39;d say print x, but</span>
 <span class="co">#that is now deprecated</span>

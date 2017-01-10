@@ -55,6 +55,10 @@ def foo(x):
   this in your PyX scripts:
 
 ~~~{.python}
+#importing from __future__ 
+#must be at the VERY top
+#of yours scripts, meaning
+#BEFORE any other imports
 from __future__ import print_function
 
 #In Py2, you'd say print x, but
