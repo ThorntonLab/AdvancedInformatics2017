@@ -7,3 +7,5 @@
 * Week 3: Rstudio and/or Jupyter notebooks: the "lab notebooks" of computational biology.  Publication-quality graphics using ggplot2.
 * Week 4: Makefiles and automation.
 * Week 5: General issues in dealing with "big data".  Out-of-memory analysis using SQLite
+
+Materials may be found [here](http://www.molpopgen.org/AdvancedInformatics2017)
