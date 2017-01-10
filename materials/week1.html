@@ -6,6 +6,25 @@
   <meta name="generator" content="pandoc" />
   <title></title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
   <link rel="stylesheet" href="pandoc.css" type="text/css" />
 </head>
 <body>
@@ -16,9 +35,55 @@
 <li><strong>READ:</strong> <a href="https://github.com/ThorntonLab/intro2github">My intro to git/github</a>. (This was presented in Evolution Journal Club back in 2014)</li>
 <li><strong>For future reference:</strong> <a href="https://anonimops.de/PythonCrash/PythonNumpy.pdf">Crash course in scicomp modules for Python</a></li>
 </ul>
+<h2 id="general-commentseditorializing-on-python.">General comments/editorializing on Python.</h2>
+<ul>
+<li>Indentation/spacing matters in Python. There is no requirement as to the <em>number</em> of spaces/tabs for each level of indentation, but there is a requirement that indentation is <em>consistent</em> for each level: For example:</li>
+</ul>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> foo(x):
+    <span class="co">&quot;&quot;&quot;</span>
+<span class="co">    Yes, this is a dumb function...</span>
+<span class="co">    &quot;&quot;&quot;</span>
+    <span class="kw">if</span> x is <span class="ot">None</span>:
+        <span class="kw">raise</span> <span class="ot">TypeError</span>(<span class="st">&quot;x cannot be None!&quot;</span>)
+    <span class="kw">try</span>:
+        <span class="kw">return</span> <span class="dt">int</span>(x)/<span class="dv">2</span>
+    <span class="kw">except</span>:
+        <span class="kw">return</span> <span class="ot">None</span></code></pre>
+<ul>
+<li>I recommend spaces instead of tabs. Fans of <a href="https://www.youtube.com/watch?v=SsoOG6ZeyUI">Silicon Valley</a>’s main character are free to disagree.</li>
+<li><strong>It is imperative to have a text editor capable of editing Python files.</strong> The “big two” of the Unix world (<a href="http://www.gnu.org/software/emacs">Emacs</a> and <a href="http://www.vim.org">vim</a>) work very well. I personally use <a href="https://neovim.io/">neovim</a> with the <a href="https://valloric.github.io/YouCompleteMe/">YouCompleteMe</a> module for Python/C/C++ code completion. There are <a href="https://www.elegantthemes.com/blog/resources/the-11-best-code-editors-available-in-2015">a lot</a> of editors available for the OS X system. Many of them cost money. One exception that a few colleagues have recommended is <a href="https://atom.io/">Atom</a>, but I cannot personally vouch for it. For Windows users, I have no idea, but Atom seems to support that system.</li>
+<li><a href="https://www.python.org/dev/peps/pep-0008/">This is a style guide for Python code.</a> Style guides are not gospel, although many treat them as such. The advice here is good, though.</li>
+</ul>
+<h2 id="comments-on-spectors-notes.">Comments on Spector’s notes.</h2>
+<ul>
+<li><p>His notes violate a fundamental tenet of programming, which is “know your standard library.” (The “standard library” is the set of types, functions, etc., that come with the language by default, meaning they are available without need for any third-party add-ons.) For example, his discussion of counting (section 4.9 of his notes) is “non-Pythonic”, meaning he is hand-rolling a solution when a better, safer, and more idiomatic method is available in the langauge’s standard library. To be fair, he is doing this for pedagogical reasons, but reinventing the wheel is a bad habit that a few seconds with Google can usually help you avoid.</p></li>
+<li><p>They are Python2-centric. The current language standard is Python3. See <a href="http://python3porting.com/differences.html">here</a> for Py2/Py3 differences. Many of these differences will lead to failure under Py3. The big one is “printing”, which is now a function in Py3. To save your sanity, get used to saying this in your PyX scripts:</p></li>
+</ul>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">from</span> __future__ <span class="ch">import</span> print_function
+
+<span class="co">#In Py2, you&#39;d say print x, but</span>
+<span class="co">#that is now deprecated</span>
+<span class="dt">print</span>(x)</code></pre>
+<p>Similarly, there is only one integer type in Py3. For example, this Py2 code no longer works:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co">#Assign x to be an &quot;unlimited&quot; precision integer.</span>
+<span class="co">#type(x) would say &#39;long&#39;.</span>
+x = 100L</code></pre>
+<p>Py3 has but one integer type:</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="co">#This is type &#39;int&#39;</span>
+x=<span class="dv">100</span></code></pre>
+<ul>
+<li>When working interactively (<em>e.g.</em> in a terminal), it is often nicer to work with <a href="https://ipython.org/">iPython</a>. It allows for auto-completion, a “sweet” help system, graphics display, etc. In many ways, it is more like working within the <a href="http://www.r-project.org">R</a> shell. iPython is also the engine behind “Jupyter” notebooks, which we’ll cover later in this course.</li>
+</ul>
 <h2 id="other-relevant-materials">Other relevant materials:</h2>
 <ul>
 <li>Enthought provides <a href="https://training.enthought.com/A">Python training</a>. Look <a href="https://store.enthought.com/licenses/academic/">here</a> for how to get a license. Thanks to Edwin!</li>
 </ul>
+<h1 id="labhomework-exercise.">Lab/homework exercise.</h1>
+<p>Write a Python script to count the words in a file. Do it idiomatically, using the Python standard library. The file to parse is the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a>, aka GPL3.</p>
+<p>To obtain a plain-text version of the GPL3, we need some tools that JJ hopefully covered in part 1 of this course :). You may use the wget utility to get the file:</p>
+<pre class="sh"><code>wget https://www.gnu.org/licenses/gpl-3.0.txt</code></pre>
+<p>If ‘wget’ doesn’t exist (which is the default case on Apple’s OS X system), use curl instead:</p>
+<pre class="sh"><code>curl https://www.gnu.org/licenses/gpl-3.0.txt &gt; gpl-3.0.txt </code></pre>
+<p><strong>Advanced:</strong> do you work in a git repo. Optionally, get a github account and put all of your work there.</p>
 </body>
 </html>
