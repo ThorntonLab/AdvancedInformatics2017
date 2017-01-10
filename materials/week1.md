@@ -36,7 +36,9 @@ def foo(x):
   vouch for it.  For Windows users, I have no idea, but Atom seems to support that system.
 * [This is a style guide for Python code.](https://www.python.org/dev/peps/pep-0008/)  Style guides are not gospel,
   although many treat them as such.  The advice here is good, though.
-  
+* [Official Python docs](http://docs.python.org)  Note that there are docs for several different versions of the
+  language.  
+
 ## Comments on Spector's notes.
 
 * His notes violate a fundamental tenet of programming, which is "know your standard library." (The "standard library"
