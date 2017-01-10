@@ -83,6 +83,7 @@ x=100
 ## Other relevant materials:
 
 * Enthought provides [Python training](https://training.enthought.com/A). Look [here](https://store.enthought.com/licenses/academic/) for how to get a license.  Thanks to Edwin!
+* UCI's [Data Science Initiative](http://datascience.uci.edu/) runs many [short courses](http://datascience.uci.edu/education/short-courses/) during the year.  These cover many topics, including Python.  They're free, too.
 
 # Lab/homework exercise.
 
