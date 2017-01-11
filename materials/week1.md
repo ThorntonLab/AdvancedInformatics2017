@@ -109,6 +109,11 @@ If 'wget' doesn't exist (which is the default case on Apple's OS X system), use 
 curl https://www.gnu.org/licenses/gpl-3.0.txt > gpl-3.0.txt 
 ~~~
 
-__Advanced:__ do you work in a git repo.  Optionally, get a github account and put all of your work there.
+To accomplish this task you need to figure out how to:
+
+* strip punctuation from text
+* it would also be nice to convert all words to lower case
+
+__Advanced:__ do your work in a git repo.  Optionally, get a github account and put all of your work there.
 
 
