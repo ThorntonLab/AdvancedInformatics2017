@@ -93,7 +93,7 @@ x=100
 
 # Lab/homework exercise.
 
-Write a Python script to count the words in a file.  Do it idiomatically, using the Python standard library.  The file
+Write a Python script to count number of occurrences of every word in a file.  Do it idiomatically, using the Python standard library.  The file
   to parse is the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0.en.html), aka GPL3.
 
 To obtain a plain-text version of the GPL3, we need some tools that JJ hopefully covered in part 1 of this course :).
