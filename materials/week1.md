@@ -116,4 +116,8 @@ To accomplish this task you need to figure out how to:
 
 __Advanced:__ do your work in a git repo.  Optionally, get a github account and put all of your work there.
 
+# More info/resources about Python
 
+Larry asked about efficiency of things like lists. Efficiency is an important topic in general.  Fortunately, Python is
+relatively efficient.  That said, there are situations where you run into performance bottlenecks. Much like R, you can
+write extensions to Python using C/C++ ([Py2 docs](https://docs.python.org/2/extending/extending.html) and [Py3 docs](https://docs.python.org/3/extending/extending.html)).  Python's C application programming interface, or API, is quite nice.  However, this is the hard way to go: you need to know C/C++.  Another option is to use [Cython](http://www.cython.org), which allows you to write Python code that gets turned into the equvalent C code.  It also allows you to functions from other C/C++ libraries in Python by generating Python wrappers to the libraries.  We use it quite a bit in the lab.
