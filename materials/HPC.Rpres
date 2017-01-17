@@ -207,7 +207,7 @@ Dependent jobs
 
 ~~~{.sh}
 qsub -N JOB1NAME job1.sh
-qsub -N JOB2NAME -hold_ijd JOB1NAME job1.sh
+qsub -N JOB2NAME -hold_jid JOB1NAME job2.sh
 ~~~
 
 **Job 2 will wait in the queue until job 1 completes!**
