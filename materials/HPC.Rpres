@@ -212,6 +212,18 @@ qsub -N JOB2NAME -hold_jid JOB1NAME job2.sh
 
 **Job 2 will wait in the queue until job 1 completes!**
 
+Array dependencies
+==========================
+
+If job1 & job2 are array jobs with the same number of tasks, we can set up a 1-to-1 dependency:
+
+~~~{.sh}
+qsub -N JOB1NAME job1.sh
+qsub -N JOB2NAME -hold_jid_ad JOB1NAME job2.sh
+~~~
+
+Now, the hold is *per task*.
+
 Workflows
 ==========================
 
@@ -430,7 +442,7 @@ The two strategies can be mixed and matched:
 #$ -q bio
 cd $SGE_O_WORKDIR
 #untested :)
-parallel [args for parallel] command :::: args.$SGE_TASK_D
+parallel [args for parallel] command :::: args.$SGE_TASK_ID
 ~~~
 
 
