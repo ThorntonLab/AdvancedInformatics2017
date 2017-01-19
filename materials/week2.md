@@ -21,7 +21,7 @@ We are going to concoct a "bioinformatics workflow" that has the following featu
 The workflow will do the following:
 
 1. Job1: create a list of all files in your user's home directory.
-2. Job2: get the word count for each file in the list created in Job1.
+2. Job2: get the line count for each file in the list created in Job1.
 3. Job3: Make a list of every file with fewer than 100 lines, using the output from Job2.
 4. Job4: (or 3b.) Make a list of every file smaller than 5Kb in size.
 
