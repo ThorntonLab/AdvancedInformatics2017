@@ -7,3 +7,5 @@ Background materials:
 * [Jupyter project](http://jupyter.org/)
 * [Jupyter quickstart guide](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/)
 * [Jupyer notebook tutorial](https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook)
+
+[Lecture notes](LabNotebooks.html)
