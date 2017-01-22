@@ -116,6 +116,9 @@ Jupyter downsides
 * Weak file system navigation.
 * Requires some funky "magic" lines at top to use Python graphics
 * Not as "git-friendly".  The notebook itself is a large JSON file, which contains your graphics as binary "blobs", making commits/diffs BIG.  People are [working on this](https://gab41.lab41.org/commit-and-push-to-github-from-jupyter-notebooks-579f5743a50b#.8bpyfbvex), but fixes aren't readily available.
+
+Jupyter downsides (con't)
+========================
 * Editor not as good.  Rstudio default to GNU readline key bindings (similar to many Emacs bindings) and has options for vim bindings, too.  Jupyter is limited to "whatever your browser supports", which can really stink...
 * Conversion to other formats done via command line program called **nbconvert**, as opposed to in-app as in Rstudio.
 * Working remotely is painful (slow) through X forwarding.
@@ -125,7 +128,7 @@ Jupyter + R
 
 * [Instructions](https://irkernel.github.io/)
 
-Jupyer and X forwarding
+Jupyter and X forwarding
 ===========================
 **Simply put: DON'T!!!!**
 
