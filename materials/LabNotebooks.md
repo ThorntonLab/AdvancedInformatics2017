@@ -134,3 +134,9 @@ Jupyter and X forwarding
 
 * Use [SSH port forwarding](https://gist.github.com/molpopgen/3267efe08a0a4c23835249a955db37a2) instead.  
 * Allows you to use your **local** browser!
+
+Things to be aware of
+=================================
+
+* [Beaker notebooks](http://beakernotebook.com/)  R + Python in same notbook
+* [rpy2](https://rpy2.readthedocs.io/en/version_2.8.x/) allows R blocks in an otherwise Python Jupyter notebook.
