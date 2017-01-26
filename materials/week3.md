@@ -56,3 +56,6 @@ convert plot.tiff -set colorspace RGB -layers flatten -alpha off \
 ~~~{.sh}
 convert plot.compressed.tif plot.compressed.pdf
 ~~~
+
+We have a shell script online to automate the process.  Get it
+[here](https://github.com/ThorntonLab/ThorntonLabToolkit).
