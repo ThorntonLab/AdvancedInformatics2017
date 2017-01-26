@@ -24,3 +24,35 @@ Books:
 * [R for data science](https://www.amazon.com/Data-Science-Transform-Visualize-Model/dp/1491910399/)
 * [ggplot book](https://www.amazon.com/ggplot2-Elegant-Graphics-Data-Analysis/dp/331924275X)
 * Basically anything by Hadley Wickham is the future of nice stuff for R.
+
+# Getting image files ready for publication.
+
+There are a lot of ways to do this!  Here's one that works well.
+
+## Background
+
+* R does not make "true" pdf files!! Rather, it generates a wrapper around some other form of graphic file.  In our
+  experience, pdf generated from R raise red flags at journals like PLoS.
+
+So, here is what we do:
+
+1. Save graphics as 600dpi TIFF:
+
+~~~{.r}
+tiff('plot.tiff',height=x,width=y,res=600)
+~~~
+
+This makes a really big file!
+
+2. Use [ImageMagick](https://www.imagemagick.org/) to convert to smaller tiff:
+
+~~~{.sh}
+convert plot.tiff -set colorspace RGB -layers flatten -alpha off \
+-compress lzw -depth 8  -density 600 -adaptive-resize 4500x2400  plot.compressed.tif
+~~~
+
+3. Use ImageMagick again to make a final pdf:
+
+~~~{.sh}
+convert plot.compressed.tif plot.compressed.pdf
+~~~

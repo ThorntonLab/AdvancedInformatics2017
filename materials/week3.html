@@ -6,6 +6,25 @@
   <meta name="generator" content="pandoc" />
   <title></title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
   <link rel="stylesheet" href="pandoc.css" type="text/css" />
 </head>
 <body>
@@ -31,5 +50,26 @@
 <li><a href="https://www.amazon.com/ggplot2-Elegant-Graphics-Data-Analysis/dp/331924275X">ggplot book</a></li>
 <li>Basically anything by Hadley Wickham is the future of nice stuff for R.</li>
 </ul>
+<h1 id="getting-image-files-ready-for-publication.">Getting image files ready for publication.</h1>
+<p>There are a lot of ways to do this! Here’s one that works well.</p>
+<h2 id="background">Background</h2>
+<ul>
+<li>R does not make “true” pdf files!! Rather, it generates a wrapper around some other form of graphic file. In our experience, pdf generated from R raise red flags at journals like PLoS.</li>
+</ul>
+<p>So, here is what we do:</p>
+<ol style="list-style-type: decimal">
+<li>Save graphics as 600dpi TIFF:</li>
+</ol>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tiff</span>(<span class="st">&#39;plot.tiff&#39;</span>,<span class="dt">height=</span>x,<span class="dt">width=</span>y,<span class="dt">res=</span><span class="dv">600</span>)</code></pre>
+<p>This makes a really big file!</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Use <a href="https://www.imagemagick.org/">ImageMagick</a> to convert to smaller tiff:</li>
+</ol>
+<pre class="sh"><code>convert plot.tiff -set colorspace RGB -layers flatten -alpha off \
+-compress lzw -depth 8  -density 600 -adaptive-resize 4500x2400  plot.compressed.tif</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Use ImageMagick again to make a final pdf:</li>
+</ol>
+<pre class="sh"><code>convert plot.compressed.tif plot.compressed.pdf</code></pre>
 </body>
 </html>
