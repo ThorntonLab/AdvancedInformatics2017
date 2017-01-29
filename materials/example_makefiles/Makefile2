@@ -1,0 +1,14 @@
+all: Figs/fig1.pdf Figs/fig2.pdf
+
+Figs/fig1.pdf: R/fig1.R
+	cd R;R --no-save --quiet < fig1.R
+
+Figs/fig2.pdf: R/fig2.R R/makefig2data.R data/fig2data.txt 
+	cd R;R --no-save --quiet < fig2.R
+
+data/fig2data.txt: R/makefig2data.R
+	cd R;R --no-save --quiet < makefig2data.R
+
+clean:
+	find . -name '*.pdf' | xargs rm -f
+	rm -f data/*

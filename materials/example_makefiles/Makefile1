@@ -1,0 +1,7 @@
+all: Figs/fig1.pdf
+
+Figs/fig1.pdf: R/fig1.R
+	cd R;R --no-save --quiet < fig1.R
+
+clean:
+	find . -name '*.pdf' | xargs rm -f
