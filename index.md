@@ -20,3 +20,5 @@ Thus, under section IIIA, I declare them as licensed under the terms of the [CCB
 * [Week 1 materials](materials/week1.html)
 * [Week 2 materials](materials/week2.html)
 * [Week 3 materials](materials/week3.html)
+* [Week 4 materials](materials/week4.html)
+
