@@ -1,0 +1,283 @@
+sqlite
+========================================================
+author: Kevin Thornton
+date: Advanced Informatics, Week 5
+autosize: true
+
+
+What are we talking about?
+===============================================
+
+* Today, we focus on when you have make your own data files in your work flows.
+* I assume rectangular data with missing values allowed.
+* Emphasis on **very large** data, meaning that you cannot read them into memory:
+
+~~~{r}
+#Fails due to out of memory
+x=read.table("mydata.gz",header=T)
+~~~
+
+What are we not talking about?
+==============================================
+
+* BAM/SAM/CRAM/BED/VCF
+* There is a big community supporting tools working with theses things already.
+
+Where you come in.
+============================================
+
+* Often, you need to make a file that is in-between a BAM/SAM/CRAM/BED/VCF and your final analysis.
+* You have to decide what goes in it.
+* This file could be arbitrarily big.
+
+Intermediate files -- what to do?
+========================================================
+
+We want a file format that is:
+
+- Simple.
+- Usable with many different programming languages.
+- Fast.
+- Can handle very large amounts of data.
+- Can be quickly looked at via command-line tools.
+
+Standard option
+=======================================
+
+- .csv.gz (compressed file with delimited columns)
+- Really big files can be read with data.table:
+
+~~~{r}
+library(data.table)
+x=fread('gunzip -c myfile.csv.gz')
+~~~
+
+- But **really really** big files may consume all RAM or still be too slow.
+- Also neither searchable/indexable nor easily viewable.
+
+SQLite
+======================================
+
+- A relational database format.
+- Data stored in binary format.
+- Data can be **indexed** for rapid lookup.
+- There are Python/R/C/C++/you-name-it interfaces.
+
+SQL = Structured Query Language
+=========================================
+
+- *Relatively* simple means of asking for things from databases
+
+~~~
+select columns from table where conditions are true group by other columns;
+~~~
+
+~~~
+select temperature from climate_data where year > 1975 group by month;
+~~~
+
+- See Buffalo Ch. 13 for example of queries.
+
+Key concept: Indexes
+=================================
+
+- Certain columns may be treated as indexes.
+- "where" and "group by" are faster in indexed columns.
+- Rule of thumb: **indexes should be integers**.
+
+Key concept: aggregation and group by
+=========================================
+~~~
+select avg(temperature) from climate_data where year > 1975 group by month;
+~~~
+
+[See here](https://www.sqlite.org/lang_aggfunc.html) for list of aggregators supported by SQL.
+
+SQLite
+=================================
+
+- It is database software that doesn't require privileged access to the system.
+- You can write to it in Python **without knowing any SQL**
+- You can write to it and analyze tables in R **without knowing any SQL**.
+- That is rather amazing!
+
+Why is this cool?
+=================================
+
+- You can replace (gzipped) text files with ".db" files...
+- ...and use them as if they were gzipped text files...
+- ...and use the same files in Python...
+- ...and have files bigger than you'd normally be able to process...
+- ...even on HPC.
+- And, you can create temporary data bases in memory or on disk.
+
+R packages (Install them!)
+================================
+
+- [RSQLite](https://cran.r-project.org/web/packages/RSQLite/index.html): R interface to SQLite
+- [DBI](https://cran.r-project.org/web/packages/DBI/index.html): generic **D**ata **B**ase **I**nterface package.  Supports RSQLite, MySQL, PostgreSQL.
+- [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html): "A fast, consistent tool for working with data frame like objects, both in memory and out of memory."
+
+The dplyr package has a nice [vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/databases.html) showing off what it can do with databases.
+
+dplyr: create a database
+============================
+
+
+```r
+library(dplyr)
+my_db <- src_sqlite("my_db.sqlite3", create = T)
+```
+
+dplyr: copy a dataframe to a database
+==================
+
+~~~{r}
+library(nycflights13)
+flights_sqlite <- copy_to(my_db, flights, temporary = FALSE, indexes = list(
+  c("year", "month", "day"), "carrier", "tailnum"))
+~~~
+
+
+dplyr: select from a database
+==================================
+
+```r
+#Connect to a db on disk
+db <- src_sqlite("my_db.sqlite3")
+#Create a 'handle' to relevant table
+flights_data = tbl(db,'flights')
+#Query uses STANDARD DPLYR
+#and acts as if flights_data is a data.table!
+query = flights_data %>% 
+  select(year:day, dep_delay, arr_delay)
+#Execute the query and get results
+results=collect(query,n=3)
+```
+
+The collect thing
+===================================
+
+- dplyr works on principle of lazy evaluation.
+- Nothing is executed until "collect" is called.
+- dplyr creates the relevant SQL syntax.
+
+The results
+=======================
+
+```r
+print(results)
+```
+
+```
+# A tibble: 3 × 5
+   year month   day dep_delay arr_delay
+  <int> <int> <int>     <dbl>     <dbl>
+1  2013     1     1         2        11
+2  2013     1     1         4        20
+3  2013     1     1         2        33
+```
+
+Split/apply/combine
+==========================
+
+The syntax is 100% **standard dplyr**!
+
+~~~{r}
+query = table %>%
+  group_by(col1,col2) %>% 
+  summarise(mean_col3 = mean(col3))
+~~~
+
+Temporary databases in-memory
+===================================
+
+```r
+db_in_mem <- src_sqlite(":memory:",create=T)
+```
+
+Why do this?
+
+- Avoids creating temporary files
+- Automatically deleted when session closes
+
+Adding rows to a database
+===============================
+
+~~~{r}
+db_insert_into(db_in_mem$con,'tablename',values=tibble or data.frame)
+~~~
+
+More info
+==================================
+
+See the vignettes/docs for [RSQLite](https://cran.r-project.org/web/packages/RSQLite/index.html) and [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html).
+
+Python
+=================================
+
+The package is sqlite3:
+
+~~~{python}
+import sqlite3
+~~~~
+
+Py2 docs [here](https://docs.python.org/2/library/sqlite3.html)
+
+Python: create databases with Pandas
+=======================================
+
+Pandas is rough equivalent of R's data.frame + dplyr.
+
+~~~{python}
+import sqlite3
+import pandas as pd
+
+conn=sqlite3.connect("mydb.db")
+df=pd.DataFrame()
+#Do stuff that fills up df
+df.to_sql('tablename',conn,if_exists='append')
+conn.close()
+~~~
+
+See [docs](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_sql.html).
+
+Python: reading databses back in with Pandas
+==============================
+
+This requires the full SQL syntax:
+
+~~~{py}
+import pandas as pd
+conn=sqlite3.connect("mydb.db")
+x=pd.read_sql('select stuff from table where other_stuff is true group by even_more_stuff',conn)
+conn.close()
+~~~
+
+See [docs](http://pandas.pydata.org/pandas-docs/version/0.19.2/generated/pandas.read_sql.html).
+
+Python: pandas/sqlite3 lets you then work in R
+==================================================
+
+Useful if:
+
+- You find pandas operations confusing. (They can be!)
+- You love dplyr. (You should.)
+- Trying to plot in Python makes you wanna die. (Totally fair.)
+
+Python/sqlite3 and "power user" features:
+======================================================
+
+- Custom aggregation functions.  See [here](https://gist.github.com/molpopgen/56408993dc3fd43fe834d3f3a5634bb7).
+
+Why does all of this matter?
+===============================================
+
+- Files with millions of rows are the new normal.
+- You need a file format that works with many different analysis platforms (read: programming languages).
+
+Case study:
+
+- 80Gb database for this week's lab
+- Using dplyr to get some column means + ggplot2 to plot: 15 minutes, a bit under 4Gb RAM
+- Using RSQLite to **load entire file**, dplyr to analyze: over 120Gb RAM, 

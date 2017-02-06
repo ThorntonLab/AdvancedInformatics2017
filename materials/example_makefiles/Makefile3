@@ -1,5 +1,6 @@
 all: Figs/fig1.pdf Figs/fig2.pdf
 
+#Reminder: $(<F) is the %.R of R/%.R!!!
 Figs/%.pdf: R/%.R
 	cd R;R --no-save --quiet <  $(<F)
 
