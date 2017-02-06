@@ -3,6 +3,7 @@ sqlite
 author: Kevin Thornton
 date: Advanced Informatics, Week 5
 autosize: true
+
 ```{r,echo=F,include=F}
 if(file.exists('my_db.sqlite3'))
 {
