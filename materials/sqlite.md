@@ -279,5 +279,5 @@ Why does all of this matter?
 Case study:
 
 - 80Gb database for this week's lab
-- Using dplyr to get some column means + ggplot2 to plot: 15 minutes, a bit under 4Gb RAM
-- Using RSQLite to **load entire file**, dplyr to analyze: over 120Gb RAM, 
+- Using dplyr to get some column means + ggplot2 to plot: 15 minutes, a bit under 4Gb RAM.
+- Using RSQLite to **load entire file**, dplyr to analyze: over 113Gb RAM, 26 minutes.
